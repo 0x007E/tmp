@@ -1,4 +1,4 @@
-name: EXC Release Pipeline
+name: TMP Release Pipeline
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   export-kicad:
     env:
-      BaseFileName: "demo"
+      BaseFileName: "TMP"
       Folder: "./pcb"
       SchematicFileExtension: "kicad_sch"
       PCBFileExtension: "kicad_pcb"
@@ -130,7 +130,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./artifact/kicad/schematic/EXC-schematic.pdf
+        asset_path: ./artifact/kicad/schematic/TMP-schematic.pdf
         asset_name: schematic.pdf
         asset_content_type: application/pdf
 
@@ -170,7 +170,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./artifact/kicad/drill/EXC-drill_map.pdf
+        asset_path: ./artifact/kicad/drill/TMP-drill_map.pdf
         asset_name: drill.pdf
         asset_content_type: application/pdf
 

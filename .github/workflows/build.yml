@@ -1,4 +1,4 @@
-name: EXC Build Pipeline
+name: TMP Build Pipeline
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 jobs:
   export-kicad:
     env:
-      BaseFileName: "demo"
+      BaseFileName: "TMP"
       Folder: "./pcb"
       SchematicFileExtension: "kicad_sch"
       PCBFileExtension: "kicad_pcb"
