@@ -1,0 +1,97 @@
+name: EXC Build Pipeline
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  export-kicad:
+    env:
+      BaseFileName: "demo"
+      Folder: "./pcb"
+      SchematicFileExtension: "kicad_sch"
+      PCBFileExtension: "kicad_pcb"
+      OutputFolder: "./output"
+      ConfigFilePath: ".kibot/build.kibot.yaml"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Fetch repository
+      uses: actions/checkout@v4
+    
+    - name: Prepare output directory
+      run: |
+        mkdir -p ${{ env.OutputFolder }}
+        cp -r ${{ env.Folder }} ${{ env.OutputFolder }}/kicad
+        cp ./LICENSE ${{ env.OutputFolder }}
+
+    - name: Run KiBOT
+      uses: INTI-CMNB/KiBot@v2_dk7
+      with:
+        config: ${{ env.ConfigFilePath }}
+        dir: ${{ env.OutputFolder }}
+        schema: "${{ env.Folder }}/${{ env.BaseFileName }}.${{ env.SchematicFileExtension }}"
+        board: "${{ env.Folder }}/${{ env.BaseFileName }}.${{ env.PCBFileExtension }}"
+
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: kicad-export
+        path: ${{ env.OutputFolder }}
+        retention-days: 1
+
+  build-firmware:
+    env:
+      TOOLCHAIN: "3.7.0.1796"
+      DFP: "ATmega_DFP.2.2.509"
+      DEVICE: "atmega16a"
+      OutputFolder: "./output"
+      FirmwareName: "demo"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Fetch repository
+      uses: actions/checkout@v4
+    - name: Copy License
+      run: |
+          mkdir ${{ env.OutputFolder }}
+          cp ./LICENSE ${{ env.OutputFolder }}
+    - name: Install zip
+      run: sudo apt-get install -y zip
+    - name: install-build-tools
+      run: |
+          wget https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-${{ env.TOOLCHAIN }}-linux.any.x86_64.tar.gz
+          tar -xf *.tar.gz
+    - name: install-dfp-package
+      run: |
+          wget http://packs.download.atmel.com/Atmel.${{ env.DFP }}.atpack
+          unzip *.atpack -d ./DFP
+    - name: build-firmware
+      run: |
+          mkdir temp
+
+          libraries=""
+
+          ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=${{ env.DEVICE }} -std=gnu99 -B ./DFP/gcc/dev/${{ env.DEVICE }} -I ./DFP/include -c ./firmware/adc/adc.c -o ./temp/adc.o
+          libraries+="./temp/adc.o "
+
+          ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=${{ env.DEVICE }} -std=gnu99 -B ./DFP/gcc/dev/${{ env.DEVICE }} -I ./DFP/include -c ./firmware/uart/uart.c -o ./temp/uart.o
+          libraries+="./temp/uart.o "
+
+          ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=${{ env.DEVICE }} -std=gnu99 -B ./DFP/gcc/dev/${{ env.DEVICE }} -I ./DFP/include -c ./firmware/main.c -o ./temp/main.o
+          ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=${{ env.DEVICE }} -B ./DFP/gcc/dev/${{ env.DEVICE }} -I ./DFP/include -o ./temp/main.elf ./temp/main.o ${libraries}
+          
+          ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .text -j .data -O ihex ./temp/main.elf ${{ env.OutputFolder }}/${{ env.FirmwareName }}_m16a.hex
+          ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .eeprom --change-section-lma .eeprom=0 -O ihex ./temp/main.elf ${{ env.OutputFolder }}/${{ env.FirmwareName }}_m16a.eep
+
+          tar -czvf build.tar.gz ${{ env.OutputFolder }}
+          zip -r build.zip ${{ env.OutputFolder }}
+
+    - name: upload-firmware
+      uses: actions/upload-artifact@v4
+      with:
+        name: firmware-build
+        path: ${{ env.OutputFolder }}
+        retention-days: 1
