@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Connector_Wago_SMD")(type "KiCad")(uri "${KIPRJMOD}/lib/Connector_Wago_SMD.pretty")(options "")(descr ""))
+)
