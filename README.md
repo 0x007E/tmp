@@ -20,7 +20,7 @@ Optional the converted temperature can be digitalized through an A/D converter a
 | Schematic | [pdf](https://github.com/0x007E/tmp/releases/latest/download/schematic.pdf) / [cadlab](https://cadlab.io/project/28588/main/files) | Schematic files |
 | Board | [pdf](https://github.com/0x007E/tmp/releases/latest/download/pcb.pdf) / [cadlab](https://cadlab.io/project/28588/main/files) | Board file |
 | Drill | [pdf](https://github.com/0x007E/tmp/releases/latest/download/drill.pdf) | Drill file |
-| Gerber | [zip](https://github.com/0x007E/tmp/releases/latest/download/kicad.zip) / [tar](https://github.com/0x007E/tmp/releases/latest/download/kicad.tar.gz) | Gerber/Drill files |
+| PCB | [zip](https://github.com/0x007E/tmp/releases/latest/download/kicad.zip) / [tar](https://github.com/0x007E/tmp/releases/latest/download/kicad.tar.gz) |  	KiCAD/Gerber/BoM/Drill files |
 | Firmware | [zip](https://github.com/0x007E/tmp/releases/latest/download/firmware.zip) / [tar](https://github.com/0x007E/tmp/releases/latest/download/firmware.tar.gz) | Demo Firmware for ATmega16 |
 
 # Hardware
