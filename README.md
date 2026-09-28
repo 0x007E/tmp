@@ -20,7 +20,8 @@ Optional the converted temperature can be digitalized through an A/D converter a
 | Schematic | [pdf](https://github.com/0x007E/tmp/releases/latest/download/schematic.pdf) / [cadlab](https://cadlab.io/project/28588/main/files) | Schematic files |
 | Board | [pdf](https://github.com/0x007E/tmp/releases/latest/download/pcb.pdf) / [cadlab](https://cadlab.io/project/28588/main/files) | Board file |
 | Drill | [pdf](https://github.com/0x007E/tmp/releases/latest/download/drill.pdf) | Drill file |
-| PCB | [zip](https://github.com/0x007E/tmp/releases/latest/download/kicad.zip) / [tar](https://github.com/0x007E/tmp/releases/latest/download/kicad.tar.gz) |  	KiCAD/Gerber/BoM/Drill files |
+| BoM | [xlsx](https://github.com/0x007E/tmp/releases/latest/download/bom.xlsx) / [html](https://github.com/0x007E/tmp/releases/latest/download/ibom.html)          | Bill of Material as Excel/interactive HTML |
+| PCB    | [zip](https://github.com/0x007E/tmp/releases/latest/download/kicad.zip) / [tar](https://github.com/0x007E/tmp/releases/latest/download/kicad.tar.gz)    | KiCAD/Gerber/BoM/Drill files       |
 | Firmware | [zip](https://github.com/0x007E/tmp/releases/latest/download/firmware.zip) / [tar](https://github.com/0x007E/tmp/releases/latest/download/firmware.tar.gz) | Demo Firmware for ATmega16 |
 
 # Hardware
