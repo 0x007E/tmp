@@ -7152,7 +7152,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "Waste"
+		(property "Value" "BIN"
 			(at 0.75 0 0)
 			(layer "B.Fab")
 			(hide yes)
